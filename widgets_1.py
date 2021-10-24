@@ -1,7 +1,5 @@
-from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-import sys
 import cable_resistances
 
 
@@ -98,15 +96,26 @@ class widgets_1(QWidget):
         self.length_groupbox.setLayout(length_vbox)
 
         # VOLTAGE DROP RESULT
-        vd_percent_value = QLabel('VD(%): 0')
+        vd_percent_label = QLabel('VD(%):')
+        vd_absolute_label = QLabel('VD(V):')
+        vd_result_label_vbox = QVBoxLayout()
+        vd_result_label_vbox.addWidget(vd_percent_label)
+        vd_result_label_vbox.addWidget(vd_absolute_label)
+
+        vd_percent_value = QLabel('0')
         vd_percent_value.setObjectName('vd_percent_result')
-        vd_absolute_value = QLabel('VD(V): 0')
+        vd_absolute_value = QLabel('0')
         vd_absolute_value.setObjectName('vd_absolute_result')
-        vd_result_vbox = QVBoxLayout()
-        vd_result_vbox.addWidget(vd_percent_value)
-        vd_result_vbox.addWidget(vd_absolute_value)
+        vd_result_value_vbox = QVBoxLayout()
+        vd_result_value_vbox.addWidget(vd_percent_value)
+        vd_result_value_vbox.addWidget(vd_absolute_value)
+
+        vd_result_hbox = QHBoxLayout()
+        vd_result_hbox.addLayout(vd_result_label_vbox)
+        vd_result_hbox.addLayout(vd_result_value_vbox)
+
         self.vd_result_groupbox = QGroupBox()
-        self.vd_result_groupbox.setLayout(vd_result_vbox)
+        self.vd_result_groupbox.setLayout(vd_result_hbox)
 
         # Max Allowed Length
         max_length_lable = QLabel('Max Lenght(Ft)')
@@ -121,9 +130,17 @@ class widgets_1(QWidget):
         # Fail/Okay Label
         fail_ok_lable = QLabel('Fail/Okay')
         fail_ok_lable.setObjectName('fail_okay')
+        fail_ok_lable.setAlignment(Qt.AlignCenter)
+        fail_ok_lable.setStyleSheet('background-color: yellow;'
+                                    'color: red;'
+                                    'font-size: 35pt;'
+                                    'text-align: center;'
+                                    'font: bold')
+
         fail_ok_vbox = QVBoxLayout()
         fail_ok_vbox.addWidget(fail_ok_lable)
         self.fail_ok_groupbox = QGroupBox()
+        # self.fail_ok_groupbox.setStyleSheet('background-color: yellow;')
         self.fail_ok_groupbox.setLayout(fail_ok_vbox)
 
         # Suggested Size
@@ -135,10 +152,3 @@ class widgets_1(QWidget):
         suggest_size_vbox.addWidget(suggest_size_value)
         self.suggest_size_groupbox = QGroupBox()
         self.suggest_size_groupbox.setLayout(suggest_size_vbox)
-
-
-
-
-
-
-

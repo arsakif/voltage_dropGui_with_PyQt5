@@ -1,5 +1,4 @@
 import numpy as np
-from widgets_1 import widgets_1
 import cable_resistances
 
 
@@ -35,6 +34,8 @@ class calculate_vd:
         self.resistance = self.find_cable_resistance()
         self.vd_absolute = self.calculate_vd()[0]
         self.vd_percent = self.calculate_vd()[1]
+        self.max_length = self.max_length()
+        self.fail_okay = self.okay_fail()
 
     def find_cable_resistance(self):
         if self.conductor_type:
@@ -50,6 +51,22 @@ class calculate_vd:
     def calculate_vd(self):
         vd_absolute = (self.current * self.length * self.resistance * self.multi_factor) / self.sets
         vd_pecent = (vd_absolute/self.voltage_level)*100
-        return f'VD(V): {round(vd_absolute,2):.2f}', f'VD(%): {round(vd_pecent,2):.2f}%'
 
+        return f'{round(vd_absolute,2):.2f}', f'{round(vd_pecent,2):.2f}'
 
+    def max_length(self):
+        vd_max = (self.vd_allowance/100) * self.voltage_level
+        try:
+            if self.current > 0:
+                length_max = vd_max/((self.current * self.resistance * self.multi_factor) / self.sets)
+                return str(round(length_max, 2))
+            else:
+                return '0'
+        except OverflowError:
+            return '0'
+
+    def okay_fail(self):
+        if self.vd_allowance > float(self.vd_percent):
+            return True
+        else:
+            return False

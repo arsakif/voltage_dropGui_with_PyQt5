@@ -1,5 +1,3 @@
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 import sys
 
@@ -50,6 +48,8 @@ class MainWindow(QMainWindow):
         self.widget_dic_1 = self.process_widgets()
         self.set_connections()
 
+        self.vd_resluts = self.run_button_click()
+
     def process_widgets(self):
         widget_dic_1 = {
             'voltage_level': self.findChild(QComboBox, name='voltage_level_value'),
@@ -95,6 +95,29 @@ class MainWindow(QMainWindow):
 
         self.widget_dic_1['vd_absolute_result'].setText(vd_resluts.vd_absolute)
         self.widget_dic_1['vd_percent_result'].setText(vd_resluts.vd_percent)
+        self.widget_dic_1['max_length'].setText(vd_resluts.max_length)
+
+        self.configure_fail_ok_label(vd_resluts.fail_okay)
+
+        return vd_resluts
+
+    def configure_fail_ok_label(self, fail_okey):
+        if fail_okey:
+            self.widget_dic_1['fail_okay'].setText('OKAY')
+            self.widget_dic_1['fail_okay'].setStyleSheet(
+                                'background-color: #20b050;'
+                                'color: white;'
+                                'font-size: 35pt;'
+                                'text-align: center;'
+                                'font: bold')
+        else:
+            self.widget_dic_1['fail_okay'].setText('FAIL ')
+            self.widget_dic_1['fail_okay'].setStyleSheet(
+                'background-color: #85241e;'
+                'color: #e0ecff;'
+                'font-size: 35pt;'
+                'text-align: center;'
+                'font: bold')
 
 
 app = QApplication(sys.argv)
